@@ -3,20 +3,22 @@
 // ========================================
 
 const portfolioData = {
-    // ========================================
+// ========================================
     // Profile Section
     // ========================================
     profile: {
         name: "Muhammad Rizki Hidayat",
         fullName: "Muhammad Rizki Hidayat",
-        title: "Full Stack Developer & UI/UX Designer",
+        title: "Data Analyst & Web Development Enthusiast",
         greeting: "Halo, saya",
-        description: "Membangun solusi digital yang elegan dan fungsional dengan fokus pada pengalaman pengguna yang luar biasa.",
-        aboutDescription: "Saya adalah seorang pengembang web yang passionate dalam menciptakan pengalaman digital yang menarik dan fungsional. Dengan pengalaman dalam berbagai proyek, saya mengkhususkan diri dalam membangun aplikasi web yang responsif dan user-friendly. Saya percaya bahwa teknologi harus membantu manusia, bukan mempersulitnya. Oleh karena itu, saya selalu mengutamakan clean code, aksesibilitas, dan pengalaman pengguna dalam setiap proyek yang saya kerjakan.",
+        description: "Seorang Data Analyst dan Web Developer yang antusias dalam mengolah data menjadi insight bernilai serta membangun solusi digital yang fungsional dan efisien. Memiliki ketertarikan kuat pada analisis berbasis data dan pengembangan aplikasi web untuk menciptakan sistem yang berdampak nyata.",
+        aboutDescription: "Mahasiswa Teknologi Informasi yang antusias pada bidang Data Analyst dan Web Development, dengan fokus pada pengembangan sistem berbasis data menggunakan Python, PHP, serta pengelolaan database MySQL. Memiliki kemampuan teknis dalam pengembangan web meliputi HTML, CSS, JavaScript, dasar framework, perancangan struktur sistem, serta integrasi database, disertai keahlian analisis, pengolahan, dan visualisasi data menggunakan Spreadsheet dan Power BI untuk menghasilkan solusi digital yang informatif dan fungsional.",
         photo: "assets/profile.png",
-        //Fallback icons when no photo
+        // Fallback icons when no photo
         heroIcon: "fa-user",
-        aboutIcon: "fa-user-tie"
+        aboutIcon: "fa-user-tie",
+        // CV File URL (PDF)
+        cv: "assets/CV_M-RIZKI-HIDAYAT.pdf"
     },
 
     // ========================================
@@ -24,17 +26,17 @@ const portfolioData = {
     // ========================================
     stats: {
         experience: {
-            value: 3,
+            value: 1,
             suffix: "+",
             label: "Tahun Pengalaman"
         },
         projects: {
-            value: 50,
+            value: 10,
             suffix: "+",
             label: "Proyek Selesai"
         },
         clients: {
-            value: 30,
+            value: 2,
             suffix: "+",
             label: "Klien Puas"
         }
@@ -45,7 +47,7 @@ const portfolioData = {
     // ========================================
     skills: {
         frontend: {
-            title: "Frontend",
+            title: "Web Development",
             items: [
                 { name: "HTML5", icon: "fab fa-html5", level: 95 },
                 { name: "CSS3", icon: "fab fa-css3-alt", level: 90 },
@@ -54,21 +56,21 @@ const portfolioData = {
             ]
         },
         backend: {
-            title: "Backend",
+            title: "Data Analytics",
             items: [
-                { name: "Node.js", icon: "fab fa-node-js", level: 80 },
-                { name: "MySQL", icon: "fas fa-database", level: 75 },
-                { name: "Python", icon: "fab fa-python", level: 70 },
-                { name: "PHP", icon: "fab fa-php", level: 75 }
+                { name: "Microsoft Excel", icon: "fas fa-file-excel", level: 85 },
+                { name: "Power BI", icon: "fas fa-chart-bar", level: 80 },
+                { name: "Python", icon: "fab fa-python", level: 75 },
+                { name: "SQL", icon: "fas fa-database", level: 80 }
             ]
         },
         tools: {
-            title: "Tools & Design",
+            title: "Graphic Design",
             items: [
                 { name: "Figma", icon: "fab fa-figma", level: 85 },
-                { name: "Git", icon: "fab fa-git-alt", level: 80 },
-                { name: "Docker", icon: "fab fa-docker", level: 65 },
-                { name: "UI/UX Design", icon: "fas fa-pencil-ruler", level: 85 }
+                { name: "Canva", icon: "fas fa-palette", level: 80 },
+                { name: "Adobe Illustrator", icon: "fas fa-bezier-curve", level: 75 },
+                { name: "Adobe Photoshop", icon: "fas fa-image", level: 80 }
             ]
         }
     },

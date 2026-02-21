@@ -1,8 +1,6 @@
 // ========================================
 // EmailJS Configuration
 // ========================================
-// Replace these with your actual EmailJS credentials
-// Get your credentials from https://www.emailjs.com/
 const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
 const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
@@ -11,10 +9,7 @@ const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
 // Document Ready
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize EmailJS
     initEmailJS();
-    
-    // Initialize all functions
     initTheme();
     initNavbar();
     initSmoothScroll();
@@ -23,8 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     initBackToTop();
     initScrollAnimations();
-    
-    // Render all data dynamically
     renderAll();
 });
 
@@ -45,11 +38,8 @@ function renderAll() {
 // ========================================
 function renderProfile() {
     const data = portfolioData.profile;
-    
-    // Update page title
     document.title = `Portofolio - ${data.name}`;
     
-    // Hero section
     const heroGreeting = document.getElementById('heroGreeting');
     const heroName = document.getElementById('heroName');
     const heroTitle = document.getElementById('heroTitle');
@@ -62,27 +52,19 @@ function renderProfile() {
     if (heroTitle) heroTitle.textContent = data.title;
     if (heroDescription) heroDescription.textContent = data.description;
     
-    // Handle hero photo
     if (profilePlaceholder) {
         if (data.photo && data.photo !== '') {
-            // Create img element if photo exists
             const img = document.createElement('img');
             img.src = data.photo;
             img.alt = data.name;
             img.onerror = function() {
-                // Fallback to icon if image fails
                 this.style.display = 'none';
                 if (heroIcon) heroIcon.style.display = 'flex';
             };
-            
-            // Clear existing content and add image
             profilePlaceholder.innerHTML = '';
             profilePlaceholder.appendChild(img);
-            
-            // Also show icon as backup
             if (heroIcon) heroIcon.style.display = 'none';
         } else {
-            // Use icon as fallback
             if (heroIcon) {
                 heroIcon.className = data.heroIcon ? `fas ${data.heroIcon}` : 'fas fa-user';
                 heroIcon.style.display = 'flex';
@@ -90,29 +72,20 @@ function renderProfile() {
         }
     }
     
-    // Navigation logo
-    const navLogo = document.getElementById('navLogo');
-    if (navLogo) {
-        navLogo.innerHTML = `${data.name.split(' ')[0]}<span>.</span>`;
-    }
-    
-    // About section
     const aboutTitle = document.getElementById('aboutTitle');
     const aboutDescription = document.getElementById('aboutDescription');
     const aboutIcon = document.getElementById('aboutIcon');
     const imageBox = document.querySelector('.image-box');
     
     if (aboutTitle) {
-        aboutTitle.textContent = `${data.title} dengan Passion untuk Design`;
+        aboutTitle.textContent = `${data.title} dengan Passion untuk Pengembangan Bisnis`;
     }
     
     if (aboutDescription) {
-        // Split description into paragraphs
         const descParts = data.aboutDescription.split('\n\n');
         aboutDescription.innerHTML = descParts.map(part => `<p>${part}</p>`).join('');
     }
     
-    // Handle about section photo
     if (imageBox && data.photo && data.photo !== '') {
         const img = document.createElement('img');
         img.src = data.photo;
@@ -121,10 +94,8 @@ function renderProfile() {
             this.style.display = 'none';
             if (aboutIcon) aboutIcon.style.display = 'flex';
         };
-        
         imageBox.innerHTML = '';
         imageBox.appendChild(img);
-        
         if (aboutIcon) aboutIcon.style.display = 'none';
     } else if (aboutIcon) {
         aboutIcon.className = data.aboutIcon ? `fas ${data.aboutIcon}` : 'fas fa-user-tie';
@@ -138,7 +109,6 @@ function renderProfile() {
 function renderStats() {
     const data = portfolioData.stats;
     const container = document.getElementById('aboutStats');
-    
     if (!container) return;
     
     const statsHTML = `
@@ -155,10 +125,8 @@ function renderStats() {
             <span class="stat-label">${data.clients.label}</span>
         </div>
     `;
-    
     container.innerHTML = statsHTML;
     
-    // Trigger counter animation
     setTimeout(() => {
         const statNumbers = document.querySelectorAll('.stat-number');
         statNumbers.forEach(num => {
@@ -174,25 +142,12 @@ function renderStats() {
 function renderSkills() {
     const data = portfolioData.skills;
     const container = document.getElementById('skillsGrid');
-    
     if (!container) return;
     
     let skillsHTML = '';
-    
-    // Frontend skills
-    if (data.frontend) {
-        skillsHTML += renderSkillCategory('Frontend', data.frontend.items);
-    }
-    
-    // Backend skills
-    if (data.backend) {
-        skillsHTML += renderSkillCategory('Backend', data.backend.items);
-    }
-    
-    // Tools skills
-    if (data.tools) {
-        skillsHTML += renderSkillCategory('Tools & Design', data.tools.items);
-    }
+    if (data.frontend) skillsHTML += renderSkillCategory('Web Development', data.frontend.items);
+    if (data.backend) skillsHTML += renderSkillCategory('Data Analytics', data.backend.items);
+    if (data.tools) skillsHTML += renderSkillCategory('Graphic Design', data.tools.items);
     
     container.innerHTML = skillsHTML;
 }
@@ -206,14 +161,7 @@ function renderSkillCategory(title, items) {
         </div>
     `).join('');
     
-    return `
-        <div class="skill-category">
-            <h3>${title}</h3>
-            <div class="skill-items">
-                ${itemsHTML}
-            </div>
-        </div>
-    `;
+    return `<div class="skill-category"><h3>${title}</h3><div class="skill-items">${itemsHTML}</div></div>`;
 }
 
 // ========================================
@@ -222,14 +170,11 @@ function renderSkillCategory(title, items) {
 function renderProjects() {
     const data = portfolioData.projects;
     const container = document.getElementById('projectsGrid');
-    
     if (!container) return;
     
     const projectsHTML = data.map((project, index) => {
-        // Generate tags HTML
         const tagsHTML = project.tags.map(tag => `<span>${tag}</span>`).join('');
         
-        // Generate links HTML with validation
         let linksHTML = '';
         if (project.links) {
             if (project.links.source && project.links.source !== '#') {
@@ -240,7 +185,6 @@ function renderProjects() {
             }
         }
         
-        // Fallback icon if no image
         const imageHTML = project.image && project.image !== '' 
             ? `<img src="${project.image}" alt="${project.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                <i class="${project.icon}" style="display:none;"></i>`
@@ -248,18 +192,12 @@ function renderProjects() {
         
         return `
             <div class="project-card" style="animation-delay: ${index * 0.1}s">
-                <div class="project-image">
-                    ${imageHTML}
-                </div>
+                <div class="project-image">${imageHTML}</div>
                 <div class="project-content">
                     <h3>${project.title}</h3>
                     <p>${project.description}</p>
-                    <div class="project-tags">
-                        ${tagsHTML}
-                    </div>
-                    <div class="project-links">
-                        ${linksHTML}
-                    </div>
+                    <div class="project-tags">${tagsHTML}</div>
+                    <div class="project-links">${linksHTML}</div>
                 </div>
             </div>
         `;
@@ -274,62 +212,36 @@ function renderProjects() {
 function renderContacts() {
     const data = portfolioData.contact;
     
-    // Contact details
     const contactDetails = document.getElementById('contactDetails');
     if (contactDetails) {
-        // Format phone number
         const phone = data.phone || '';
-        const formattedPhone = phone.replace(/^\+/, ''); // Remove + if present
+        const formattedPhone = phone.replace(/^\+/, '');
         
         const detailsHTML = `
             <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="contact-text">
-                    <span>Email</span>
-                    <a href="mailto:${data.email}">${data.email}</a>
-                </div>
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <div class="contact-text"><span>Email</span><a href="mailto:${data.email}">${data.email}</a></div>
             </div>
             <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-phone"></i>
-                </div>
-                <div class="contact-text">
-                    <span>Phone</span>
-                    <a href="tel:${formattedPhone}">${phone}</a>
-                </div>
+                <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                <div class="contact-text"><span>Phone</span><a href="tel:${formattedPhone}">${phone}</a></div>
             </div>
             <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="contact-text">
-                    <span>Location</span>
-                    <span>${data.location}</span>
-                </div>
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="contact-text"><span>Location</span><span>${data.location}</span></div>
             </div>
         `;
         contactDetails.innerHTML = detailsHTML;
     }
     
-    // Hero social links
     const heroSocial = document.getElementById('heroSocial');
-    if (heroSocial) {
-        heroSocial.innerHTML = renderSocialLinks(data.social);
-    }
+    if (heroSocial) heroSocial.innerHTML = renderSocialLinks(data.social);
     
-    // Contact section social links
     const contactSocial = document.getElementById('contactSocial');
-    if (contactSocial) {
-        contactSocial.innerHTML = renderSocialLinks(data.social);
-    }
+    if (contactSocial) contactSocial.innerHTML = renderSocialLinks(data.social);
     
-    // Footer social links
     const footerSocial = document.getElementById('footerSocial');
-    if (footerSocial) {
-        footerSocial.innerHTML = renderSocialLinks(data.social);
-    }
+    if (footerSocial) footerSocial.innerHTML = renderSocialLinks(data.social);
 }
 
 function renderSocialLinks(social) {
@@ -354,19 +266,15 @@ function renderSocialLinks(social) {
 // Footer Renderer
 // ========================================
 function renderFooter() {
-    const data = portfolioData;
-    
-    // Footer logo
     const footerLogo = document.getElementById('footerLogo');
     if (footerLogo) {
-        footerLogo.innerHTML = `${data.profile.name.split(' ')[0]}<span>.</span>`;
+        footerLogo.innerHTML = `Portofolio<span>.</span>`;
     }
     
-    // Footer copyright
     const footerCopyright = document.getElementById('footerCopyright');
     if (footerCopyright) {
         const year = new Date().getFullYear();
-        footerCopyright.textContent = data.footer.copyright.replace('2025', year);
+        footerCopyright.textContent = `© ${year} Muhammad Rizki. All rights reserved.`;
     }
 }
 
@@ -384,29 +292,37 @@ function initEmailJS() {
 // ========================================
 function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
-    
-    // Check for saved theme in localStorage
     const savedTheme = localStorage.getItem('theme');
     
-    // Apply saved theme or default to light
     if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
     } else {
-        // Check system preference
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
         if (prefersDarkScheme.matches) {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
     }
     
-    // Toggle theme on button click
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+        });
+    }
+    
+    // CV Download Handler
+    const downloadCV = document.getElementById('downloadCV');
+    if (downloadCV) {
+        downloadCV.addEventListener('click', (e) => {
+            e.preventDefault();
+            const cvPath = portfolioData.profile.cv;
+            if (cvPath) {
+                window.open(cvPath, '_blank');
+            } else {
+                showNotification('CV tidak tersedia', 'error');
+            }
         });
     }
 }
@@ -420,7 +336,6 @@ function initNavbar() {
     const navLinks = document.querySelector('.nav-links');
     const navLinksItems = document.querySelectorAll('.nav-links a');
 
-    // Scroll effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -429,13 +344,11 @@ function initNavbar() {
         }
     });
 
-    // Mobile menu toggle
     menuToggle.addEventListener('click', () => {
         menuToggle.classList.toggle('active');
         navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking on a link
     navLinksItems.forEach(link => {
         link.addEventListener('click', () => {
             menuToggle.classList.remove('active');
@@ -443,21 +356,16 @@ function initNavbar() {
         });
     });
 
-    // Active link based on scroll position
     const sections = document.querySelectorAll('section');
-    
     window.addEventListener('scroll', () => {
         let current = '';
-        
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            
             if (scrollY >= sectionTop - 200) {
                 current = section.getAttribute('id');
             }
         });
-        
         navLinksItems.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href').slice(1) === current) {
@@ -472,23 +380,16 @@ function initNavbar() {
 // ========================================
 function initSmoothScroll() {
     const links = document.querySelectorAll('a[href^="#"]');
-    
     links.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
                 const navbarHeight = document.querySelector('.navbar').offsetHeight;
                 const targetPosition = targetSection.offsetTop - navbarHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
     });
@@ -498,31 +399,21 @@ function initSmoothScroll() {
 // Skill Bars Animation
 // ========================================
 function initSkillBars() {
-    // Wait for skills to be rendered
     setTimeout(() => {
         const skillBars = document.querySelectorAll('.skill-progress');
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const progress = entry.target;
                     const value = progress.getAttribute('data-progress');
-                    
-                    // Add transition
                     progress.style.transition = 'width 1s ease';
                     progress.style.width = value + '%';
-                    
-                    // Stop observing after animation
                     observer.unobserve(progress);
                 }
             });
-        }, {
-            threshold: 0.5
-        });
+        }, { threshold: 0.5 });
         
-        skillBars.forEach(bar => {
-            observer.observe(bar);
-        });
+        skillBars.forEach(bar => observer.observe(bar));
     }, 100);
 }
 
@@ -530,11 +421,8 @@ function initSkillBars() {
 // Project Cards Animation
 // ========================================
 function initProjectCards() {
-    // Wait for projects to be rendered
     setTimeout(() => {
         const projectCards = document.querySelectorAll('.project-card');
-        
-        // Add hover effect
         projectCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 card.style.transition = 'all 0.3s ease';
@@ -548,37 +436,29 @@ function initProjectCards() {
 // ========================================
 function initContactForm() {
     const form = document.getElementById('contactForm');
-    
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Get form data
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
         
-        // Simple validation
         if (!data.name || !data.email || !data.subject || !data.message) {
             showNotification('Mohon isi semua field!', 'error');
             return;
         }
         
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
             showNotification('Email tidak valid!', 'error');
             return;
         }
         
-        // Get submit button
         const submitBtn = document.getElementById('submitBtn');
         const originalContent = submitBtn.innerHTML;
-        
-        // Show loading state
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
         submitBtn.disabled = true;
         
         try {
-            // Prepare template parameters for EmailJS
             const templateParams = {
                 from_name: data.name,
                 from_email: data.email,
@@ -587,15 +467,11 @@ function initContactForm() {
                 to_email: portfolioData.contact.email
             };
             
-            // Send email using EmailJS
             if (typeof emailjs !== 'undefined') {
                 await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-                
-                // Success
                 showNotification('Pesan berhasil dikirim!', 'success');
                 form.reset();
             } else {
-                // Fallback if EmailJS is not loaded
                 console.log('EmailJS not loaded, using mock submission');
                 await mockEmailSubmission(data);
                 showNotification('Pesan berhasil dikirim! (Mode Demo)', 'success');
@@ -605,7 +481,6 @@ function initContactForm() {
             console.error('Error sending email:', error);
             showNotification('Gagal mengirim pesan. Silakan coba lagi.', 'error');
         } finally {
-            // Reset button state
             submitBtn.innerHTML = originalContent;
             submitBtn.disabled = false;
         }
@@ -613,11 +488,10 @@ function initContactForm() {
 }
 
 // ========================================
-// Mock Email Submission (Fallback)
+// Mock Email Submission
 // ========================================
 function mockEmailSubmission(data) {
     return new Promise((resolve) => {
-        // Simulate API call delay
         setTimeout(() => {
             console.log('Mock email sent:', data);
             resolve({ status: 'success' });
@@ -629,52 +503,35 @@ function mockEmailSubmission(data) {
 // Notification System
 // ========================================
 function showNotification(message, type) {
-    // Remove existing notification
     const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
+    if (existingNotification) existingNotification.remove();
     
-    // Create notification
     const notification = document.createElement('div');
     notification.className = 'notification notification-' + type;
-    
     const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-    
     notification.innerHTML = `
         <i class="fas ${icon}"></i>
         <span>${message}</span>
         <button class="notification-close"><i class="fas fa-times"></i></button>
     `;
     
-    // Add styles dynamically
     notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
+        position: fixed; top: 100px; right: 20px;
         background: ${type === 'success' ? '#10b981' : '#ef4444'};
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        z-index: 9999;
-        animation: slideIn 0.3s ease;
-        font-family: 'Poppins', sans-serif;
+        color: white; padding: 16px 24px; border-radius: 12px;
+        display: flex; align-items: center; gap: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 9999;
+        animation: slideIn 0.3s ease; font-family: 'Poppins', sans-serif;
     `;
     
     document.body.appendChild(notification);
     
-    // Close button
     const closeBtn = notification.querySelector('.notification-close');
     closeBtn.addEventListener('click', () => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => notification.remove(), 300);
     });
     
-    // Auto close after 5 seconds
     setTimeout(() => {
         if (document.body.contains(notification)) {
             notification.style.animation = 'slideOut 0.3s ease';
@@ -699,10 +556,7 @@ function initBackToTop() {
     
     backToTop.addEventListener('click', (e) => {
         e.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
@@ -710,7 +564,6 @@ function initBackToTop() {
 // Scroll Animations
 // ========================================
 function initScrollAnimations() {
-    // Wait for content to be rendered
     setTimeout(() => {
         const animatedElements = document.querySelectorAll('.section-header, .about-content, .contact-content');
         
@@ -722,9 +575,7 @@ function initScrollAnimations() {
                     observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1
-        });
+        }, { threshold: 0.1 });
         
         animatedElements.forEach(el => {
             el.style.opacity = '0';
@@ -740,27 +591,8 @@ function initScrollAnimations() {
 // ========================================
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(100px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(100px);
-        }
-    }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100px); } }
 `;
 document.head.appendChild(style);
 
@@ -788,25 +620,12 @@ function animateCounter(element, target) {
 // Keyboard Navigation
 // ========================================
 document.addEventListener('keydown', (e) => {
-    // Close mobile menu on Escape
     if (e.key === 'Escape') {
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
-        
         menuToggle.classList.remove('active');
         navLinks.classList.remove('active');
     }
-});
-
-// ========================================
-// Print Styles
-// ========================================
-window.addEventListener('beforeprint', () => {
-    document.body.classList.add('printing');
-});
-
-window.addEventListener('afterprint', () => {
-    document.body.classList.remove('printing');
 });
 
 // ========================================
@@ -815,10 +634,7 @@ window.addEventListener('afterprint', () => {
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
+        const later = () => { clearTimeout(timeout); func(...args); };
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
@@ -828,11 +644,9 @@ function debounce(func, wait) {
 // Resize Handler
 // ========================================
 window.addEventListener('resize', debounce(() => {
-    // Recalculate any dynamic values if needed
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', vh + 'px');
 }, 250));
 
-// Set initial viewport height
 const vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', vh + 'px');
